@@ -10,7 +10,8 @@ export default class Main extends Component {
       descriptionValue: '',
       income: [],
       expense: [],
-      option: true
+      option: true,
+
     }
     this.income = this.income.bind(this)
     this.expense = this.expense.bind(this)
@@ -31,21 +32,23 @@ export default class Main extends Component {
   }
 
   income() {
+    let { descriptionInput, descriptionValue } = this.state
+    let incomeCopy = [ ...this.state.income, { descriptionInput, descriptionValue } ]
     this.setState({
-      income: {
-        description: this.state.descriptionInput,
-        value: this.state.descriptionValue
-      }
+      income: incomeCopy,
+      descriptionInput: '',
+      descriptionValue: ''
     })
     console.log(this.data)
   }
 
   expense() {
+    let { descriptionInput, descriptionValue } = this.state
+    let expenseCopy = [ ...this.state.expense, { descriptionInput, descriptionValue } ]
     this.setState({
-      expense: {
-        description: this.state.descriptionInput,
-        value: this.state.descriptionValue
-      }
+      expense: expenseCopy,
+      descriptionInput: '',
+      descriptionValue: ''
     })
     console.log(this.data)
   }
@@ -62,13 +65,13 @@ export default class Main extends Component {
     return (
       <div className='top'>
         <img src={ Back } />
-        <div /*className='budget'*/>
+        <div  >
           <div className='budget__title'> Available budget in <span className='budget__title--month'> %Month% </span> </div>
 
           <button
             className='add__type'
             onClick={ () => this.optionHandler() }>
-            { this.state.option ?  '+' : '-' }
+            { this.state.option ? '+' : '-' }
           </button>
 
           <input
@@ -76,6 +79,7 @@ export default class Main extends Component {
             className='add__description'
             placeholder='Add Description'
             type='text'
+            value={this.state.descriptionInput}
           ></input>
 
           <input
@@ -83,13 +87,14 @@ export default class Main extends Component {
             className='add__value'
             placeholder='Value'
             type='number'
+            value={this.state.descriptionValue}
           ></input>
 
           <img
             src={ Checkmark }
             alt='checkmark'
             className='add__btn'
-            onClick={ (event) => this.state.option ? this.income() : this.expense() }
+            onClick={ event => this.state.option ? this.income() : this.expense() }
           />
         </div>
       </div>
