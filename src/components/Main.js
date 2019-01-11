@@ -8,13 +8,20 @@ export default class Main extends Component {
     this.state = {
       descriptionInput: '',
       descriptionValue: '',
+      income: [],
+      expense: [],
+      option: true
     }
+    this.income = this.income.bind(this)
+    this.expense = this.expense.bind(this)
+    this.optionHandler = this.optionHandler.bind(this);
   }
 
   handleDescriptionInput(event) {
     this.setState({
       descriptionInput: event.target.value
     })
+    console.log()
   }
 
   handleDescriptionValue(event) {
@@ -23,38 +30,67 @@ export default class Main extends Component {
     })
   }
 
+  income() {
+    this.setState({
+      income: {
+        description: this.state.descriptionInput,
+        value: this.state.descriptionValue
+      }
+    })
+    console.log(this.data)
+  }
+
+  expense() {
+    this.setState({
+      expense: {
+        description: this.state.descriptionInput,
+        value: this.state.descriptionValue
+      }
+    })
+    console.log(this.data)
+  }
+
+  optionHandler() {
+    this.setState({
+      option: !this.state.option
+    })
+  }
+
+
+
   render() {
     return (
       <div className='top'>
         <img src={ Back } />
-        <div  >
-          <div className='budget__title'> Available budget in <span className='budget__title--month'> Month </span> </div>
-          <form>
-            <select className='add__type'>
-              <option> + </option>
-              <option> - </option>
-            </select>
-            <input
-              onChange={ event => this.handleDescriptionInput(event) }
-              className='add__description'
-              placeholder='Add Description'
-              type='text'
-            ></input>
+        <div /*className='budget'*/>
+          <div className='budget__title'> Available budget in <span className='budget__title--month'> %Month% </span> </div>
 
-            <input
-              onChange={ event => this.handleDescriptionValue(event) }
-              className='add__value'
-              placeholder='Value'
-              type='number'
-            ></input>
+          <button
+            className='add__type'
+            onClick={ () => this.optionHandler() }>
+            { this.state.option ?  '+' : '-' }
+          </button>
 
-            <img
-              src={ Checkmark }
-              alt='checkmark'
-              className='add__btn'
-              onClick={ event => console.log('clicked') }
-            />
-          </form>
+          <input
+            onChange={ event => this.handleDescriptionInput(event) }
+            className='add__description'
+            placeholder='Add Description'
+            type='text'
+          ></input>
+
+          <input
+            onChange={ event => this.handleDescriptionValue(event) }
+            className='add__value'
+            placeholder='Value'
+            type='number'
+          ></input>
+
+          <img
+            src={ Checkmark }
+            alt='checkmark'
+            className='add__btn'
+            onClick={ (event) => this.state.option ? this.income() : this.expense() }
+          />
         </div>
       </div>
     )
